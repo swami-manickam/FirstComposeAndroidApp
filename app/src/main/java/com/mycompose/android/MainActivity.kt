@@ -1,7 +1,8 @@
-package com.mycompose.app
+package com.mycompose.android
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -19,12 +20,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mycompose.app.ui.theme.FirstComposeAppTheme
+import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
 class MainActivity : ComponentActivity() {
 
 
     private var uri: Uri? = null
+
+    var st: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,10 @@ class MainActivity : ComponentActivity() {
                 Conversation(messages = SampleData.conversationSample)
             }
         }
+
+        Log.e("Length ", st!!.length.toString())
     }
+
 }
 
 @Composable

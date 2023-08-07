@@ -1,4 +1,4 @@
-package com.mycompose.app
+package com.mycompose.android
 
 import org.junit.Test
 

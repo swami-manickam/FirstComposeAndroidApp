@@ -1,28 +1,43 @@
+buildscript {
+    apply from: '../dependencies.gradle'
+    addRepos(repositories)
+}
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    namespace 'com.mycompose.app'
-    compileSdk 33
+    namespace build_versions.application_id
+    compileSdk build_versions.compile_sdk
 
     defaultConfig {
-        applicationId "com.mycompose.app"
-        minSdk 24
-        targetSdk 33
+        applicationId build_versions.application_id
+        minSdk build_versions.min_sdk
+        targetSdk build_versions.target_sdk
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "base_url", '"http://3.108.54.122:3000/"'
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -30,6 +45,25 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // For kotlinx-coroutines-core
+    packagingOptions {
+        resources.excludes += "DebugProbesKt.bin"
+    }
+
+    lintOptions {
+        // set to true to turn off analysis progress reporting by lint
+        quiet true
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+        // if true, only report errors
+        ignoreWarnings false
+        disable 'MissingTranslation'
+    }
+    hilt {
+        enableAggregatingTask = true
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -47,17 +81,137 @@ android {
 }
 
 dependencies {
+    //
+    implementation deps.core_ktx
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
-    testImplementation 'junit:junit:4.13.2'
+    /*Testing Tools*/
+    testImplementation deps.junit
+    // required if you want to use Mockito for unit tests
+    testImplementation deps.mockito.core
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    androidTestImplementation deps.espresso.core
+
+    /*Android Support*/
+    implementation(deps.constraint_layout) {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    implementation(deps.appcompat) {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    implementation(deps.legacy_support_v4) {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'com.android.support'
+    }
+    implementation(deps.multidex) {
+        exclude group: 'com.android.support'
+    }
+    implementation(deps.cardview) {
+        exclude group: 'com.android.support'
+    }
+    implementation(deps.recyclerview) {
+        exclude group: 'com.android.support'
+    }
+    implementation(deps.material) {
+        exclude group: 'com.android.support'
+    }
+
+    /*Kotlin*/
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
+
+
+
+    /*Hilt*/
+    implementation deps.hilt.runtime
+    kapt deps.hilt.compiler
+
+    /*Android ViewModel - LifeCycle*/
+    implementation deps.lifecycle.arch_common
+    implementation deps.lifecycle.arch_extensions
+    implementation deps.lifecycle.java8
+    implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.viewmodel_saved_state
+    implementation deps.lifecycle.viewmodel_compose_ktx
+    implementation deps.lifecycle.livedata_ktx
+    implementation deps.lifecycle.lifecycle_service
+    implementation deps.lifecycle.lifecycle_process
+    implementation deps.lifecycle.lifecycle_reactivestreams
+
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+    implementation deps.coroutines.test
+
+    implementation deps.navigation.runtime_ktx
+    implementation deps.navigation.fragment_ktx
+    implementation deps.navigation.testing
+    implementation deps.navigation.ui_ktx
+    implementation deps.navigation.dynamic_features
+
+    /*Retrofit 2*/
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava
+    implementation deps.retrofit.mock
+
+    /*OkHttp3*/
+    implementation deps.okHttp3.runtime
+    implementation deps.okHttp3.bom
+    implementation deps.okHttp3.logging_interceptor
+
+    /*RxJava Lib*/
+    implementation deps.rx_java
+    implementation deps.rx_android
+    implementation deps.rx_java_math
+    implementation deps.rx_binding
+    implementation deps.rx_support_binding
+    implementation deps.rx_java_progaurd
+    implementation deps.rx_lint
+    implementation deps.rx_relay
+
+    implementation deps.activity.runtime_ktx
+    implementation deps.fragment.runtime_ktx
+
+    /*Glide*/
+    implementation(deps.glide.runtime) {
+        exclude group: "com.android.support"
+    }
+    kapt deps.glide.compiler
+    implementation deps.glide.annotations
+    implementation deps.glide.okhttp3
+
+    implementation deps.gson
+    implementation deps.otto
+
+    implementation deps.coil
+
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+    implementation deps.room.ktx
+
+    implementation deps.gms_loc
+
+    /*Joda Time Lib*/
+    implementation 'joda-time:joda-time:2.10.6'
+
+
+    /*Dimens for various resolutions*/
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+   /* kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"*/
+
+
+    /*Compose UI*/
+    implementation deps.compose.runtime_ktx
+    implementation deps.compose.activity_compose
+    implementation deps.compose.ui
+    implementation deps.compose.tooling_preview
+    implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
+
+    androidTestImplementation deps.compose.test_junit
+    debugImplementation deps.compose.ui_tooling
+    debugImplementation deps.compose.ui_test_manifest
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
 }
