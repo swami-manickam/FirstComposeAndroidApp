@@ -1,4 +1,4 @@
-package com.mycompose.android
+package com.mycompose.android.presentation
 
 import android.net.Uri
 import android.os.Bundle
@@ -20,9 +20,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
 
 
     private var uri: Uri? = null
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        Log.e("Length ", st!!.length.toString())
+        /*Log.e("Length ", st!!.length.toString())*/
     }
 
 }
@@ -59,7 +60,7 @@ data class Message(val author: String, val body: String)
 fun MessageCard(msg: Message) {
     Row(modifier = Modifier.padding(all = 8.dp)) {
         Image(
-            painter = painterResource(id = R.drawable.ic_faq_new), contentDescription = "",
+            painter = painterResource(com.mycompose.app.R.drawable.ic_faq_new), contentDescription = "",
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)

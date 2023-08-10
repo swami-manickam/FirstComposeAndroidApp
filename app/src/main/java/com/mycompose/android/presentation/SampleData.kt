@@ -1,4 +1,4 @@
-package com.mycompose.android
+package com.mycompose.android.presentation
 
 object SampleData {
 

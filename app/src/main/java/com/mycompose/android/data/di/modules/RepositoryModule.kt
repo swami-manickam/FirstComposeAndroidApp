@@ -1,12 +1,14 @@
 package com.mycompose.android.data.di.modules
 
 import android.content.Context
-import android.os.Build
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mycompose.android.BuildConfig
 import com.mycompose.android.app.AppController
+import com.mycompose.android.data.api.ComposeApi
+import com.mycompose.android.data.local.ComposeDatabase
 import com.mycompose.android.data.preferences.AppPreference
+import com.mycompose.android.data.repo.ComposeRepo
+import com.mycompose.app.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -77,6 +79,21 @@ class RepositoryModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesAppRepo(
+        httpClient: OkHttpClient,
+        gson: Gson,
+        @Named("AppBaseUrl") baseUrl: String,
+        composeApi: ComposeApi,
+        composeDatabase: ComposeDatabase
+    ): ComposeRepo {
+        Retrofit.Builder().client(httpClient).baseUrl(baseUrl)
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.createAsync())
+            .addConverterFactory(GsonConverterFactory.create(gson)).build()
+        return ComposeRepo(composeApi, composeDatabase)
     }
 
 }
