@@ -5,13 +5,16 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mycompose.android.app.AppController
 import com.mycompose.android.data.api.ComposeApi
+import com.mycompose.android.data.api.RemoteDataSource
 import com.mycompose.android.data.local.ComposeDatabase
+import com.mycompose.android.data.local.dao.ComposeDAO
 import com.mycompose.android.data.preferences.AppPreference
 import com.mycompose.android.data.repo.ComposeRepo
 import com.mycompose.app.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -71,7 +74,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    @Named("ApiLevel")
     fun providesRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.base_url)
@@ -81,19 +83,27 @@ class RepositoryModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun providesAppRepo(
-        httpClient: OkHttpClient,
-        gson: Gson,
-        @Named("AppBaseUrl") baseUrl: String,
-        composeApi: ComposeApi,
-        composeDatabase: ComposeDatabase
-    ): ComposeRepo {
-        Retrofit.Builder().client(httpClient).baseUrl(baseUrl)
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.createAsync())
-            .addConverterFactory(GsonConverterFactory.create(gson)).build()
-        return ComposeRepo(composeApi, composeDatabase)
-    }
 
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ComposeApi = retrofit.create(ComposeApi::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideRemoteDataSource(apiService: ComposeApi) = RemoteDataSource(apiService)
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext appContext: Context) = ComposeDatabase.getDatabase(appContext)
+
+    @Singleton
+    @Provides
+    fun provideDao(db: ComposeDatabase) = db.Dao()
+
+
+    @Singleton
+    @Provides
+    fun provideRepository(remoteDataSource: RemoteDataSource,
+                          localDataSource: ComposeDAO) =
+        ComposeRepo(remoteDataSource, localDataSource)
 }

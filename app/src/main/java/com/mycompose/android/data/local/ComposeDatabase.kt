@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mycompose.android.data.local.dao.ComposeDAO
 import com.mycompose.android.data.model.UserInfoModel
 
 
@@ -12,14 +13,15 @@ import com.mycompose.android.data.model.UserInfoModel
 abstract class ComposeDatabase : RoomDatabase() {
 
 
+    abstract fun Dao(): ComposeDAO
+
     companion object {
         private const val DB_NAME = "user_database.db"
 
         @Volatile
         private var instance: ComposeDatabase? = null
-        private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+         fun getDatabase(context: Context) = instance ?: synchronized(this) {
             instance ?: buildDatabase(context).also {
                 instance = it
             }

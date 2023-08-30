@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstComposeApp"
         tools:targetApi="31">
+        <!-- -->
         <activity
             android:name="com.mycompose.android.presentation.MainActivity"
             android:exported="true"
@@ -22,30 +23,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- on below line we are adding intent filter to our MainActivity -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.chaitanyamunje.com"
-                    android:scheme="https" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.chaitanyamunje.com"
-                    android:scheme="http" />
-            </intent-filter>
-            <!-- on below line we are adding intent filter to our MainActivity -->
         </activity>
+        <!-- -->
+        <activity
+            android:name="com.mycompose.android.presentation.user.UserListActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FirstComposeApp"/>
     </application>
 
 </manifest>

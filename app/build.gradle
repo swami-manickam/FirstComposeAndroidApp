@@ -27,7 +27,9 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "base_url", '"http://3.108.54.122:3000/"'
+        /*buildConfigField "String", "base_url", '"https://gorest.co.in/public/v2/"'*/
+        buildConfigField "String", "base_url", '"https://www.thecocktaildb.com/api/"'
+        buildConfigField "String", "access_token", '"4feb20eca29eddddae803b517be7f5c7f991e09ea43d5419b1162056657a001f"'
     }
 
     buildTypes {
@@ -213,5 +215,7 @@ dependencies {
     debugImplementation deps.compose.ui_test_manifest
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
+    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
 
 }

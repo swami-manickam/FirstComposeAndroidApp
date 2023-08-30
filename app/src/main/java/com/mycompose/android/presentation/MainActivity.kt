@@ -1,10 +1,12 @@
 package com.mycompose.android.presentation
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,10 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
+import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.presentation.base.BaseActivity
+import com.mycompose.android.presentation.user.UserListActivity
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
 class MainActivity : BaseActivity() {
@@ -32,14 +38,13 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FirstComposeAppTheme{
+            FirstComposeAppTheme {
                 Conversation(messages = SampleData.conversationSample)
             }
         }
 
         /*Log.e("Length ", st!!.length.toString())*/
     }
-
 }
 
 @Composable
@@ -56,9 +61,16 @@ data class Message(val author: String, val body: String)
 
 @Composable
 fun MessageCard(msg: Message) {
-    Row(modifier = Modifier.padding(all = 8.dp)) {
+    val context = LocalContext.current
+    Row(modifier = Modifier
+        .padding(all = 8.dp)
+        .clickable(onClick = {
+            context.startActivity(Intent(context, UserListActivity::class.java))
+        })
+    ) {
         Image(
-            painter = painterResource(com.mycompose.app.R.drawable.ic_faq_new), contentDescription = "",
+            painter = painterResource(com.mycompose.app.R.drawable.ic_faq_new),
+            contentDescription = "",
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
@@ -80,6 +92,7 @@ fun MessageCard(msg: Message) {
         }
     }
 }
+
 
 @Preview
 @Composable
