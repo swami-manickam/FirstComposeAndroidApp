@@ -209,6 +209,7 @@ dependencies {
     implementation deps.compose.ui
     implementation deps.compose.tooling_preview
     implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.4'
 
     androidTestImplementation deps.compose.test_junit
     debugImplementation deps.compose.ui_tooling

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mycompose.android.data.repo.ComposeRepo
+import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.data.response.base.AppResponse
 import com.mycompose.android.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,19 +20,22 @@ class UserViewModel @Inject constructor(
     private val repository: ComposeRepo
 ) : BaseViewModel() {
 
-    private var job: Job? = null
 
-    /*
-     val _userList = MutableLiveData<Any>()
-     val userList: LiveData<Any> get() = _userList
-    val userData = repository.getAllProducts()*/
+     val _userList = MutableLiveData<List<ProductPayload>>()
+     val userList: MutableLiveData<List<ProductPayload>> get() = _userList
+    /*Methode 1*/
+    val userData = repository.getAllProducts()
 
 
     var viewState: ComposeState by mutableStateOf(ComposeState())
+    /*Methode 2*/
     fun getProductDetails() {
         viewModelScope.launch {
             try {
-                viewState = viewState.copy(isLoading = true, error = null)
+
+                val response = repository.getAllProductsList()
+                response.let { _userList.value = it.data?.results }
+                /*viewState = viewState.copy(isLoading = true, error = null)
                 repository.getAllProducts()?.let { response ->
                     val result = response.value
                     when (result?.status) {
@@ -51,7 +55,7 @@ class UserViewModel @Inject constructor(
                         }
                         else -> {}
                     }
-                }
+                }*/
             } catch (e: Exception) {
                 e.printStackTrace()
             }

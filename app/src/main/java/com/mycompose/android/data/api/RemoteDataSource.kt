@@ -7,7 +7,8 @@ class RemoteDataSource @Inject constructor(
 ) : BaseDataSource() {
 
 
-    suspend fun getProducts() = getResult { appApi.getAllProduct() }
+    suspend fun getProducts() = getResult {
+        appApi.getAllProduct() }
 
 
 }

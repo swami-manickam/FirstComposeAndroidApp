@@ -1,6 +1,6 @@
 package com.mycompose.android.data.response.base
 
-class AppResponse<T> private constructor(
+class AppResponse<out T> (
     val status: ResponseStatus,
     val data: T?,
     val message: String?
