@@ -208,8 +208,9 @@ dependencies {
     implementation deps.compose.activity_compose
     implementation deps.compose.ui
     implementation deps.compose.tooling_preview
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha11'
-    implementation 'androidx.compose.runtime:runtime-livedata:1.0.4'
+    implementation 'androidx.compose.material3:material3:1.2.0-alpha06'
+    implementation deps.compose.ui_compose_livedata
+    implementation deps.compose.ui_compose_coil
 
     androidTestImplementation deps.compose.test_junit
     debugImplementation deps.compose.ui_tooling
@@ -217,6 +218,5 @@ dependencies {
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
-    implementation("io.coil-kt:coil-compose:2.0.0-rc01")
 
 }

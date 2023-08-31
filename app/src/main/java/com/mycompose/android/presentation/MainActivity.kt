@@ -21,10 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
-import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.presentation.base.BaseActivity
-import com.mycompose.android.presentation.user.UserListActivity
+import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
 class MainActivity : BaseActivity() {
@@ -65,7 +63,7 @@ fun MessageCard(msg: Message) {
     Row(modifier = Modifier
         .padding(all = 8.dp)
         .clickable(onClick = {
-            context.startActivity(Intent(context, UserListActivity::class.java))
+            context.startActivity(Intent(context, ProductListActivity::class.java))
         })
     ) {
         Image(
