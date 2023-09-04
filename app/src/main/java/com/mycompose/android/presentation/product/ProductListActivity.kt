@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,15 +35,44 @@ import com.mycompose.android.ui.theme.FirstComposeAppTheme
 class ProductListActivity : BaseActivity() {
 
     private val productViewModel: ProductViewModel by viewModels()
+
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
+
             FirstComposeAppTheme {
+                val scrollBehavior =
+                    TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+                //
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    /*Methode 1*/
-                    FetchAllRecords()
+
+                    Scaffold(topBar = {
+                        TopAppBar(
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                titleContentColor = MaterialTheme.colorScheme.background
+                            ),
+                            title = { Text(text = "Product Lists") },
+                            navigationIcon = {
+                                IconButton(onClick = { finish() }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.background
+                                    )
+                                }
+                            }
+                        )
+                    }) { innerPadding ->
+                        Column(Modifier.padding(innerPadding)) {
+                            FetchAllRecords()
+                        }
+                    }
+
                 }
+                //
             }
 
         }
@@ -70,7 +102,13 @@ class ProductListActivity : BaseActivity() {
 
         val userdata = productViewModel.userList.observeAsState(null)
         if (userdata.value == null)
-            CircularProgressIndicator()
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
         else if (userdata.value != null)
             LoadProducts(productPayload = userdata.value)
     }
@@ -137,7 +175,7 @@ class ProductListActivity : BaseActivity() {
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    Box(
+                    /*Box(
                         modifier = Modifier
                             .width(20.dp)
                             .height(20.dp)
@@ -148,7 +186,7 @@ class ProductListActivity : BaseActivity() {
                             text = "How many cars are in the garage",
                             textAlign = TextAlign.Center
                         )
-                    }
+                    }*/
                 }
             }
         }

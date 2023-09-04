@@ -58,16 +58,18 @@ class ProductDetailActivity : BaseActivity() {
                                 IconButton(onClick = { finish() }) {
                                     Icon(
                                         imageVector = Icons.Filled.ArrowBack,
-                                        contentDescription = "bfhbsh"
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.background
                                     )
                                 }
                             },
                             scrollBehavior = scrollBehavior
                         )
-                    },
-                    content = {
+                    }) { innerPadding ->
+                    Column(modifier = Modifier.padding(innerPadding)) {
                         ProductScreen()
-                    })
+                    }
+                }
                 /*}*/
             }
         }
@@ -85,7 +87,14 @@ class ProductDetailActivity : BaseActivity() {
         }
 
         if (userdata.value == null)
-            CircularProgressIndicator()
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator()
+            }
+
 
         if (userdata.value != null)
             LoadGrid(productPayload = userdata.value)
@@ -157,7 +166,7 @@ class ProductDetailActivity : BaseActivity() {
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    Box(
+                    /*Box(
                         modifier = Modifier
                             .width(20.dp)
                             .height(20.dp)
@@ -168,7 +177,7 @@ class ProductDetailActivity : BaseActivity() {
                             text = "How many cars are in the garage",
                             textAlign = TextAlign.Center
                         )
-                    }
+                    }*/
                 }
             }
         }

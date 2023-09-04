@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,20 +25,25 @@ import androidx.compose.ui.unit.dp
 import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
+import com.mycompose.android.ui.theme.screen.LandingScreen
+import com.mycompose.android.ui.theme.screen.SplashScreen
 
 class MainActivity : BaseActivity() {
-
-
-    private var uri: Uri? = null
-
-    var st: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             FirstComposeAppTheme {
-                Conversation(messages = SampleData.conversationSample)
+                Scaffold() { innerPadding ->
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                       /* Conversation(messages = SampleData.conversationSample)*/
+                        val currentContext = LocalContext.current
+                     /*  val nav =  currentContext.startActivity(Intent(currentContext, ProductListActivity::class.java))*/
+                        SplashScreen (onTimeout = {})
+                        /*LandingScreen()*/
+                    }
+                }
             }
         }
 
@@ -60,11 +66,12 @@ data class Message(val author: String, val body: String)
 @Composable
 fun MessageCard(msg: Message) {
     val context = LocalContext.current
-    Row(modifier = Modifier
-        .padding(all = 8.dp)
-        .clickable(onClick = {
-            context.startActivity(Intent(context, ProductListActivity::class.java))
-        })
+    Row(
+        modifier = Modifier
+            .padding(all = 8.dp)
+            .clickable(onClick = {
+                context.startActivity(Intent(context, ProductListActivity::class.java))
+            })
     ) {
         Image(
             painter = painterResource(com.mycompose.app.R.drawable.ic_faq_new),
