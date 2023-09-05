@@ -1,10 +1,11 @@
 package com.mycompose.android.presentation
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,24 +25,39 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.presentation.product.ProductListActivity
+import com.mycompose.android.presentation.product.ProductViewModel
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
-import com.mycompose.android.ui.theme.screen.LandingScreen
-import com.mycompose.android.ui.theme.screen.SplashScreen
+import com.mycompose.android.ui.theme.screen.CountDownSplashScreen
+
 
 class MainActivity : BaseActivity() {
+
+    private val viewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.loading.value
+            }
+        }*/
+
         setContent {
             FirstComposeAppTheme {
-                Scaffold() { innerPadding ->
+                Scaffold { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
-                       /* Conversation(messages = SampleData.conversationSample)*/
+                        /* Conversation(messages = SampleData.conversationSample)*/
                         val currentContext = LocalContext.current
-                     /*  val nav =  currentContext.startActivity(Intent(currentContext, ProductListActivity::class.java))*/
-                        SplashScreen (onTimeout = {})
-                        /*LandingScreen()*/
+                        CountDownSplashScreen(modifier = Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.background)
+                                .also { var modifier = it },
+                            beforeFinished = {}
+                        ){
+                            startActivity(Intent(currentContext, ProductListActivity::class.java))
+                            finish()
+                        }
                     }
                 }
             }

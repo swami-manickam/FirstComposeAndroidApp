@@ -65,7 +65,9 @@ class ProductListActivity : BaseActivity() {
                                 }
                             }
                         )
-                    }) { innerPadding ->
+                    }
+
+                    ) { innerPadding ->
                         Column(Modifier.padding(innerPadding)) {
                             FetchAllRecords()
                         }
