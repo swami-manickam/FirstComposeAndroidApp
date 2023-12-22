@@ -210,6 +210,7 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.2.0-alpha06'
     implementation deps.compose.ui_compose_livedata
     implementation deps.compose.ui_compose_coil
+    implementation "io.coil-kt:coil-gif:2.1.0"
 
     androidTestImplementation deps.compose.test_junit
     debugImplementation deps.compose.ui_tooling
@@ -219,5 +220,9 @@ dependencies {
 
     // splash screen
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+    implementation 'androidx.compose.material:material-icons-extended:1.4.3'
+
+
 
 }

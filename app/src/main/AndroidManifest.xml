@@ -32,6 +32,12 @@
         </activity>
         <!-- -->
         <activity
+            android:name="com.mycompose.android.presentation.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FirstComposeApp">
+        </activity>
+        <!-- -->
+        <activity
             android:name="com.mycompose.android.presentation.product.ProductListActivity"
             android:exported="true"
             android:theme="@style/Theme.FirstComposeApp">

@@ -2,7 +2,10 @@ package com.mycompose.android.ui.theme.screen
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
+import android.os.Build
 import android.os.CountDownTimer
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
 import androidx.compose.animation.slideInVertically
@@ -10,6 +13,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,6 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
@@ -34,10 +39,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import coil.size.Size
 import com.mycompose.android.app.AppConstants
 import com.mycompose.app.R
 import kotlinx.coroutines.delay
@@ -343,3 +355,148 @@ fun SplashScreen(
 
     }
 }
+
+
+/*fdjjfdshljfd*/
+
+
+
+
+@Composable
+fun CustomShowSplashScreen(
+    modifier: Modifier = Modifier,
+    finished: Boolean,
+    beforeFinished: @Composable BoxScope.() -> Unit,
+    whenFinished: @Composable () -> Unit
+) {
+    Box(
+        modifier = modifier
+    ) {
+
+        val view = LocalView.current
+        if (!finished) {
+            if (!view.isInEditMode) {
+                val currentWindow = (view.context as? Activity)?.window
+                currentWindow?.let {
+                    SideEffect {
+                        WindowCompat.getInsetsController(it, view)
+                            .hide(WindowInsetsCompat.Type.statusBars())
+                    }
+                }
+            }
+
+            beforeFinished()
+        } else {
+
+            if (!view.isInEditMode) {
+                val currentWindow = (view.context as? Activity)?.window
+                currentWindow?.let {
+                    WindowCompat.getInsetsController(it, view)
+                        .show(WindowInsetsCompat.Type.statusBars())
+                }
+            }
+
+            whenFinished()
+        }
+
+    }
+}
+
+@Composable
+fun CustomCountDownSplashScreen(
+    modifier: Modifier = Modifier,
+    totalTimeInMillis: Long = 3000,
+    notifyMeEveryMillis: Long = 300,
+    onNotify: () -> Unit = {},
+    beforeFinished: @Composable BoxScope.() -> Unit,
+    whenFinished: @Composable () -> Unit
+) {
+
+    var finished by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    CustomShowSplashScreen(
+        modifier = modifier,
+        finished = finished,
+        beforeFinished = beforeFinished,
+        whenFinished = whenFinished
+    )
+
+    LaunchedEffect(key1 = true) {
+        object : CountDownTimer(totalTimeInMillis, notifyMeEveryMillis) {
+            override fun onTick(millisUntilFinished: Long) {
+                onNotify()
+            }
+
+            override fun onFinish() {
+                finished = true
+            }
+        }.start()
+    }
+}
+
+
+@Composable
+fun CenteredImageAndText(
+    modifier: Modifier = Modifier,
+    @DrawableRes imageDrawableRes: Int,
+    contentDescription: String,
+    text: String,
+    textStyle: TextStyle = LocalTextStyle.current
+) {
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = imageDrawableRes),
+            contentDescription = contentDescription
+        )
+        Text(text = text, style = textStyle, overflow = TextOverflow.Ellipsis)
+    }
+}
+
+
+@Composable
+fun CenteredGifAndText(
+    modifier: Modifier = Modifier,
+    @DrawableRes gifImage: Int,
+    gifSize: Size = Size.ORIGINAL,
+    contentDescription: String,
+    context: Context = LocalContext.current,
+    text: String,
+    textStyle: TextStyle = LocalTextStyle.current
+) {
+
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            if (Build.VERSION.SDK_INT >= 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }
+        .build()
+
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(context).data(data = gifImage).apply(block = {
+            size(gifSize)
+        }).build(), imageLoader = imageLoader
+    )
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = contentDescription
+        )
+        Text(text = text, style = textStyle, overflow = TextOverflow.Ellipsis)
+    }
+}
+

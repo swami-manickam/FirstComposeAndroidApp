@@ -27,18 +27,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.android.presentation.product.ProductViewModel
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
+import com.mycompose.android.ui.theme.screen.CenteredImageAndText
 import com.mycompose.android.ui.theme.screen.CountDownSplashScreen
+import com.mycompose.android.ui.theme.screen.CustomCountDownSplashScreen
+import com.mycompose.app.R
 
 
 class MainActivity : BaseActivity() {
@@ -66,7 +73,7 @@ class MainActivity : BaseActivity() {
 
         }*/
 
-        requestWriteSettingsPermission(this)
+        /*requestWriteSettingsPermission(this)*/
 
         setContent {
             FirstComposeAppTheme {
@@ -74,15 +81,42 @@ class MainActivity : BaseActivity() {
                     Column(modifier = Modifier.padding(innerPadding)) {
                         /* Conversation(messages = SampleData.conversationSample)*/
                         val currentContext = LocalContext.current
-                        CountDownSplashScreen(modifier = Modifier
+                        /*CountDownSplashScreen(modifier = Modifier
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.background)
                                 .also { var modifier = it },
                             beforeFinished = {}
                         ){
-                            startActivity(Intent(currentContext, ProductListActivity::class.java))
+                            startActivity(Intent(currentContext, LoginActivity::class.java))
+                            finish()
+                        }*/
+
+                        ///
+                        CustomCountDownSplashScreen(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.background),
+                            beforeFinished = {
+                                CenteredImageAndText(
+                                    modifier = Modifier
+                                        .fillMaxSize(0.4f)
+                                        .align(Alignment.Center),
+                                    imageDrawableRes = R.drawable.ic_faq_new,
+                                    contentDescription = stringResource(id = R.string.app_name),
+                                    text = stringResource(id = R.string.app_name),
+                                    textStyle = MaterialTheme.typography.titleMedium.copy(
+                                        color = contentColorFor(
+                                            backgroundColor = MaterialTheme.colorScheme.background
+                                        ),
+                                        fontWeight = FontWeight.ExtraBold
+                                    )
+                                )
+                            }
+                        ) {
+                            startActivity(Intent(currentContext, LoginActivity::class.java))
                             finish()
                         }
+                        ////
                     }
                 }
             }
@@ -191,11 +225,14 @@ private fun requestWriteSettingsPermission(context: Context) {
 }
 
 
+/*
 @Preview
 @Composable
 fun PreviewMessageCard() {
-    /*MessageCard(
+    */
+/*MessageCard(
         msg = Message("Lexi", "Hey, take a look at Jetpack Compose, it's great!")
-    )*/
+    )*//*
+
     Conversation(messages = SampleData.conversationSample)
-}
+}*/
