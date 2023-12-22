@@ -1,14 +1,25 @@
 package com.mycompose.android.presentation
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -43,6 +54,20 @@ class MainActivity : BaseActivity() {
             }
         }*/
 
+        /*enableAutoRotation(this)
+
+        // Check if auto-rotation is enabled
+        val isAutoRotationEnabled = isAutoRotationEnabled(this)
+
+        if (isAutoRotationEnabled) {
+            // Auto-rotation is enabled
+        } else {
+            // Auto-rotation is disabled
+
+        }*/
+
+        requestWriteSettingsPermission(this)
+
         setContent {
             FirstComposeAppTheme {
                 Scaffold { innerPadding ->
@@ -63,7 +88,6 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        /*Log.e("Length ", st!!.length.toString())*/
     }
 }
 
@@ -114,11 +138,64 @@ fun MessageCard(msg: Message) {
     }
 }
 
+fun setAutoOrientationEnabled(context: Context, enabled: Boolean) {
+    Settings.System.putInt(
+        context.contentResolver,
+        Settings.System.ACCELEROMETER_ROTATION,
+        if (enabled) 1 else 0
+    )
+}
+
+
+fun enableAutoRotation(context: Context) {
+    try {
+        // Check if auto-rotate is already enabled
+        val rotationSetting = Settings.System.getInt(
+            context.contentResolver,
+            Settings.System.ACCELEROMETER_ROTATION
+        )
+
+        // If auto-rotate is not enabled, enable it
+        if (rotationSetting == 0) {
+            Settings.System.putInt(
+                context.contentResolver,
+                Settings.System.ACCELEROMETER_ROTATION,
+                1
+            )
+        }
+    } catch (e: Settings.SettingNotFoundException) {
+        e.printStackTrace()
+    }
+}
+
+fun isAutoRotationEnabled(context: Context): Boolean {
+    return try {
+        Settings.System.getInt(
+            context.contentResolver,
+            Settings.System.ACCELEROMETER_ROTATION
+        ) == 1
+    } catch (e: Settings.SettingNotFoundException) {
+        e.printStackTrace()
+        false
+    }
+}
+
+private fun requestWriteSettingsPermission(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (!Settings.System.canWrite(context)) {
+            val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+            intent.data = Uri.parse("package:")
+            context.startActivity(intent)
+        }
+    }
+}
+
 
 @Preview
 @Composable
 fun PreviewMessageCard() {
-    MessageCard(
+    /*MessageCard(
         msg = Message("Lexi", "Hey, take a look at Jetpack Compose, it's great!")
-    )
+    )*/
+    Conversation(messages = SampleData.conversationSample)
 }

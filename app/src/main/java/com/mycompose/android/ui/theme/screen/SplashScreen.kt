@@ -1,8 +1,7 @@
 package com.mycompose.android.ui.theme.screen
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.CountDownTimer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
@@ -40,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mycompose.android.app.AppConstants
-import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.app.R
 import kotlinx.coroutines.delay
 
@@ -118,6 +116,7 @@ fun SplashScreen(onTimeout: () -> Unit /*currentContext : Context*/) {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LandingScreen() {
     var visible by remember { mutableStateOf(false) }
@@ -253,9 +252,6 @@ fun SplashScreen(
         modifier = modifier
     ) {
 
-        val view = LocalView.current
-
-
         //
         val fontSize = 38.sp
         val currentFontSizePx = with(LocalDensity.current) {
@@ -290,9 +286,6 @@ fun SplashScreen(
             ) {
                 currentRotation = value
             }
-            delay(AppConstants.SPLASH_SCREEN_TIME)
-
-            /*currentContext.startActivity(Intent(currentContext, ProductListActivity::class.java))*/
         }
 
         Box(
@@ -322,6 +315,7 @@ fun SplashScreen(
         }
 
         //
+        val view = LocalView.current
         if (!finished) {
             if (!view.isInEditMode) {
                 val currentWindow = (view.context as? Activity)?.window
