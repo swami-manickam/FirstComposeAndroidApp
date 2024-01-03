@@ -70,7 +70,8 @@ class LoginActivity : BaseActivity() {
                 }) { innerPadding ->
                 Column(
                     modifier = Modifier
-                        .fillMaxSize().padding(innerPadding)
+                        .fillMaxSize()
+                        .padding(innerPadding)
                         .background(colorResource(id = R.color.white)),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -88,7 +89,7 @@ class LoginActivity : BaseActivity() {
                      else if (emailLength.)
                      else*/
 
-                    val emailId = remember { mutableStateOf(TextFieldValue()) }
+                    val emailId = rememberSaveable() { mutableStateOf(TextFieldValue()) }
                     val password = remember { mutableStateOf(TextFieldValue()) }
                     var passwordVisible by rememberSaveable {mutableStateOf(false)}
                     var passwordFocus = false

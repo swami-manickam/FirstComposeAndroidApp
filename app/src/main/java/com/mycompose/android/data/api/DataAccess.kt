@@ -6,10 +6,13 @@ import androidx.lifecycle.liveData
 import com.mycompose.android.data.response.base.AppResponse
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 
 
 fun <T> performOperation(
-   /* databaseQuery: () -> LiveData<T>,*/
+    /* databaseQuery: () -> LiveData<T>,*/
     networkCall: suspend () -> AppResponse<T>,
     /*saveCallResult: suspend (A) -> Unit*/
 ): LiveData<AppResponse<T>> =
@@ -18,8 +21,8 @@ fun <T> performOperation(
         emit(AppResponse.loading())
 
         //
-       /* val source = databaseQuery.invoke().map { AppResponse.success(it) }
-        emit(source)*/
+        /* val source = databaseQuery.invoke().map { AppResponse.success(it) }
+         emit(source)*/
         //
         val response = networkCall.invoke()
         val data = MutableLiveData<AppResponse<T>>()
@@ -34,5 +37,20 @@ fun <T> performOperation(
             emitSource(data)
         }
     }
+
+fun <T> performFlowOperation(
+    networkCall: suspend () -> AppResponse<T>
+): Flow<AppResponse<T>> {
+
+    return flow {
+        val response = networkCall.invoke()
+        val dataFlow = MutableStateFlow<AppResponse<T>>(response)
+        if (dataFlow.value.status == AppResponse.ResponseStatus.SUCCESS) {
+            emit(dataFlow.value)
+        } else if (response.status == AppResponse.ResponseStatus.ERROR) {
+            emit(AppResponse.error(response.message!!))
+        }
+    }
+}
 
 

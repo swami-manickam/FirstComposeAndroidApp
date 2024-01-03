@@ -11,4 +11,9 @@ class RemoteDataSource @Inject constructor(
         appApi.getAllProduct() }
 
 
+   suspend fun getProductsFlow() = getResult {
+        appApi.getAllProduct()
+    }
+
+
 }

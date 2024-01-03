@@ -1,6 +1,7 @@
 package com.mycompose.android.data.repo
 
 import com.mycompose.android.data.api.RemoteDataSource
+import com.mycompose.android.data.api.performFlowOperation
 import com.mycompose.android.data.api.performOperation
 import com.mycompose.android.data.local.dao.ComposeDAO
 import com.mycompose.android.data.response.ProductDataResponse
@@ -21,6 +22,13 @@ class ComposeRepo @Inject constructor(
     suspend fun getAllProductsList() : AppResponse<ProductDataResponse> {
         return remoteDataSource.getProducts()
     }
+
+    /*Method 3 */
+
+    suspend fun getAllProductsListFlow() = performFlowOperation (
+        networkCall = { remoteDataSource.getProducts() }
+    )
+
 
 
 }

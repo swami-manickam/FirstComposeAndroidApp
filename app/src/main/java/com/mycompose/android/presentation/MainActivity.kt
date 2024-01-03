@@ -23,12 +23,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,14 +47,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.android.presentation.product.ProductViewModel
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 import com.mycompose.android.ui.theme.screen.CenteredImageAndText
-import com.mycompose.android.ui.theme.screen.CountDownSplashScreen
 import com.mycompose.android.ui.theme.screen.CustomCountDownSplashScreen
 import com.mycompose.app.R
 
@@ -113,8 +122,9 @@ class MainActivity : BaseActivity() {
                                 )
                             }
                         ) {
-                            startActivity(Intent(currentContext, LoginActivity::class.java))
-                            finish()
+                            /* startActivity(Intent(currentContext, LoginActivity::class.java))
+                             finish()*/
+                            WaterCount(modifier = Modifier.padding(6.dp))
                         }
                         ////
                     }
@@ -124,6 +134,46 @@ class MainActivity : BaseActivity() {
 
     }
 }
+
+@Composable
+fun WaterCount(modifier: Modifier) {
+
+    var count by rememberSaveable { mutableIntStateOf(0) }
+
+    Column(modifier.padding(4.dp)) {
+
+        if (count > 0) {
+            var isShowTask by remember { mutableStateOf(true) }
+            if (isShowTask) {
+                WaterCountTaskItem(
+                    taskName = "Have you taken your 15 minute walk today?",
+                    onClose = { },
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            Text(text = "You have had $count glasses.")
+        }
+
+        Button(onClick = { count++ }, Modifier.padding(top = 8.dp), enabled = count < 10) {
+            Text(text = "Add One")
+        }
+
+    }
+}
+
+@Composable
+fun WaterCountTaskItem(taskName: String, onClose: () -> Unit, modifier: Modifier) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+
+        Text(text = taskName)
+        IconButton(onClick = onClose) {
+            Icon(Icons.Filled.Close, contentDescription = "Close")
+        }
+
+    }
+}
+
 
 @Composable
 fun Conversation(messages: List<Message>) {
