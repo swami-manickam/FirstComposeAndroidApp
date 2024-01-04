@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mycompose.android.data.repo.ComposeRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -13,10 +14,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel
-class FlowViewModel : ViewModel() {
+class FlowViewModel @Inject constructor(
+    private val repository: ComposeRepo
+): ViewModel() {
 
 
     private val _liveData = MutableLiveData("Welcome To Jetpack compose")
@@ -51,6 +55,24 @@ class FlowViewModel : ViewModel() {
         viewModelScope.launch {
             _sharedFlow.emit("SharedFlow")
         }
+    }
+
+
+    private val _counter = MutableStateFlow(0)
+    var counter = _counter.asStateFlow()
+
+
+    fun changeCounterValue(count: Int) {
+        _counter.value = count
+    }
+
+    fun incrementCounter() {
+        _counter.value = _counter.value + 1
+    }
+
+
+    fun decrementCounter() {
+        _counter.value = _counter.value - 1
     }
 
 
