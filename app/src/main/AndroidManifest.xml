@@ -20,7 +20,7 @@
         tools:targetApi="31">
         <!-- -->
         <activity
-            android:name="com.mycompose.android.presentation.ComposeWorkOutActivity"
+            android:name="com.mycompose.android.presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.FirstComposeApp">
@@ -36,6 +36,14 @@
             android:exported="true"
             android:theme="@style/Theme.FirstComposeApp">
         </activity>
+
+
+        <!--<activity
+            android:name="com.mycompose.android.presentation.ComposeWorkOutActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FirstComposeApp">
+        </activity>-->
+
         <!-- -->
         <activity
             android:name="com.mycompose.android.presentation.product.ProductListActivity"
