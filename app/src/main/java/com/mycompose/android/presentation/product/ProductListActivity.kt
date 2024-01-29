@@ -1,9 +1,12 @@
 package com.mycompose.android.presentation.product
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,16 +26,20 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.data.response.base.AppResponse
 import com.mycompose.android.presentation.base.BaseActivity
+import com.mycompose.android.presentation.navigation.BottomNav
+import com.mycompose.android.presentation.navigation.NavigationGraph
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
 class ProductListActivity : BaseActivity() {
 
     private val productViewModel: ProductViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +73,8 @@ class ProductListActivity : BaseActivity() {
 
                     ) { innerPadding ->
                         Column(Modifier.padding(innerPadding)) {
-                            FetchAllRecords()
+                            /*FetchAllRecords()*/
+                            NavScreenView()
                         }
                     }
 
@@ -76,6 +84,19 @@ class ProductListActivity : BaseActivity() {
 
         }
 
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    fun NavScreenView(){
+        val navController = rememberNavController()
+        Scaffold(
+            bottomBar = { BottomNav(navController = navController) }) {
+
+            NavigationGraph(navController = navController)
+        }
     }
 
 

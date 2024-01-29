@@ -122,9 +122,9 @@ class MainActivity : BaseActivity() {
                                 )
                             }
                         ) {
-                            /* startActivity(Intent(currentContext, LoginActivity::class.java))
-                             finish()*/
-                            WaterCount(modifier = Modifier.padding(6.dp))
+                             startActivity(Intent(currentContext, LoginActivity::class.java))
+                             finish()
+                            /*WaterCount(modifier = Modifier.padding(6.dp))*/
                         }
                         ////
                     }

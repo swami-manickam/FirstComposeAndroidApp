@@ -79,8 +79,6 @@ class LoginActivity : BaseActivity() {
 
                     val currentContext = LocalContext.current
 
-
-
                     Spacer(modifier = Modifier.height(100.dp))
 
                     var emailLength by remember { mutableIntStateOf(0) }
@@ -89,7 +87,7 @@ class LoginActivity : BaseActivity() {
                      else if (emailLength.)
                      else*/
 
-                    val emailId = rememberSaveable() { mutableStateOf(TextFieldValue()) }
+                    val emailId = remember { mutableStateOf(TextFieldValue()) }
                     val password = remember { mutableStateOf(TextFieldValue()) }
                     var passwordVisible by rememberSaveable {mutableStateOf(false)}
                     var passwordFocus = false
