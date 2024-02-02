@@ -29,6 +29,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.mycompose.android.presentation.navigation.LogoutScreen
+import com.mycompose.android.presentation.navigation.NavAboutUsScreen
+import com.mycompose.android.presentation.navigation.NavHelpScreen
+import com.mycompose.android.presentation.navigation.NavHomeScreen
+import com.mycompose.android.presentation.navigation.NavSettingsScreen
+import com.mycompose.android.presentation.product.ProductViewModel
+import com.mycompose.android.presentation.screens.HomeScreen
 import com.mycompose.android.ui.theme.PrimaryColor
 import com.mycompose.app.R
 
@@ -99,17 +110,38 @@ fun DrawerView(
                         painter = painterResource(id = screen.icon),
                         contentDescription = screen.title,
                         contentScale = ContentScale.Fit,
-                        modifier = Modifier.height(35.dp).width(35.dp).padding(start = 10.dp)
+                        modifier = Modifier
+                            .height(35.dp)
+                            .width(35.dp)
+                            .padding(start = 10.dp)
                     )
                     Spacer(modifier = Modifier.width(7.dp))
-                    Text(text = screen.title, fontSize = 16.sp, color = PrimaryColor,
-                        modifier = Modifier.padding(start = 10.dp))
+                    Text(
+                        text = screen.title, fontSize = 16.sp, color = PrimaryColor,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
                 }
             }
             ////
             ///
         }
         //
+    }
+}
+
+@Composable
+fun DrawerNavHost(navController: NavController, productViewModel: ProductViewModel) {
+
+
+    NavHost(
+        navController = navController as NavHostController,
+        startDestination = NavScreens.DrawerScreens.Home.route
+    ) {
+        composable(NavScreens.DrawerScreens.Home.route) { NavHomeScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Settings.route) { NavSettingsScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Help.route) { NavHelpScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.AboutUs.route) { NavAboutUsScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Logout.route) { LogoutScreen(productViewModel = productViewModel) }
     }
 
 
