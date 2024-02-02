@@ -32,6 +32,7 @@ import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.data.response.base.AppResponse
 import com.mycompose.android.presentation.base.BaseActivity
 import com.mycompose.android.presentation.navigation.BottomNav
+import com.mycompose.android.presentation.navigation.NavAppScaffold
 import com.mycompose.android.presentation.navigation.NavigationGraph
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 
@@ -74,7 +75,8 @@ class ProductListActivity : BaseActivity() {
                     ) { innerPadding ->
                         Column(Modifier.padding(innerPadding)) {
                             /*FetchAllRecords()*/
-                            NavScreenView()
+                            /*NavScreenView()*/
+                            NavAppScaffold()
                         }
                     }
 

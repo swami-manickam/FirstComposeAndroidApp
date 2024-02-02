@@ -1,0 +1,90 @@
+package com.mycompose.android.presentation.navigation
+
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import com.mycompose.android.presentation.navigation.view.DrawerNavHost
+import com.mycompose.android.presentation.navigation.view.DrawerView
+import com.mycompose.android.presentation.product.ProductViewModel
+import kotlinx.coroutines.launch
+
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun NavAppScaffold() {
+
+    val viewModel: ProductViewModel = viewModel()
+    val navController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    val currentScreen by viewModel.currentScreen.observeAsState()
+
+
+    var topBar: @Composable () -> Unit = {
+        TopBar(title = currentScreen!!.title,
+            buttonIcon = Icons.Filled.Menu,
+            onButtonClicked = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
+                }
+            })
+    }
+
+
+    Scaffold(
+        topBar = topBar,
+        scaffoldState = scaffoldState,
+        drawerContent = {
+            DrawerView(Modifier.padding(0.dp)) { route ->
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+                navController.navigate(route) {
+                    popUpTo = navController.graph.startDestinationId
+                    launchSingleTop = true
+                }
+
+            }
+        }
+    ) {
+        DrawerNavHost(navController = navController, productViewModel = viewModel)
+
+    }
+
+
+}
+
+
+@Composable
+fun TopBar(title: String = "", buttonIcon: ImageVector, onButtonClicked: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { onButtonClicked() }) {
+                Icon(buttonIcon, contentDescription = "")
+            }
+        },
+        backgroundColor = MaterialTheme.colors.primaryVariant
+    )
+}
