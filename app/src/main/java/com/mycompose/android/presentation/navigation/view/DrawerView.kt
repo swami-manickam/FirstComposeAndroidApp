@@ -16,9 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,13 +37,18 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.mycompose.android.presentation.navigation.LogoutScreen
-import com.mycompose.android.presentation.navigation.NavAboutUsScreen
-import com.mycompose.android.presentation.navigation.NavHelpScreen
-import com.mycompose.android.presentation.navigation.NavHomeScreen
-import com.mycompose.android.presentation.navigation.NavSettingsScreen
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.mycompose.android.presentation.navigation.DrawerAboutUsScreen
+import com.mycompose.android.presentation.navigation.DrawerHelpScreen
+import com.mycompose.android.presentation.navigation.DrawerHomeScreen
+import com.mycompose.android.presentation.navigation.DrawerLogoutScreen
+import com.mycompose.android.presentation.navigation.DrawerMyProfileScreen
+import com.mycompose.android.presentation.navigation.DrawerSettingsScreen
+import com.mycompose.android.presentation.navigation.NavFavoriteScreen
+import com.mycompose.android.presentation.navigation.NavNearbyScreen
+import com.mycompose.android.presentation.navigation.NavReservedScreen
+import com.mycompose.android.presentation.navigation.NavSavedScreen
 import com.mycompose.android.presentation.product.ProductViewModel
-import com.mycompose.android.presentation.screens.HomeScreen
 import com.mycompose.android.ui.theme.PrimaryColor
 import com.mycompose.app.R
 
@@ -132,17 +141,51 @@ fun DrawerView(
 @Composable
 fun DrawerNavHost(navController: NavController, productViewModel: ProductViewModel) {
 
-
     NavHost(
         navController = navController as NavHostController,
         startDestination = NavScreens.DrawerScreens.Home.route
     ) {
-        composable(NavScreens.DrawerScreens.Home.route) { NavHomeScreen(productViewModel = productViewModel) }
-        composable(NavScreens.DrawerScreens.Settings.route) { NavSettingsScreen(productViewModel = productViewModel) }
-        composable(NavScreens.DrawerScreens.Help.route) { NavHelpScreen(productViewModel = productViewModel) }
-        composable(NavScreens.DrawerScreens.AboutUs.route) { NavAboutUsScreen(productViewModel = productViewModel) }
-        composable(NavScreens.DrawerScreens.Logout.route) { LogoutScreen(productViewModel = productViewModel) }
+
+        composable(NavScreens.DrawerScreens.Home.route) { DrawerHomeScreen(productViewModel = productViewModel) }
+        composable(NavScreens.HomeScreens.Favorite.route) { NavFavoriteScreen(productViewModel = productViewModel) }
+        composable(NavScreens.HomeScreens.NearBy.route) { NavNearbyScreen(productViewModel = productViewModel) }
+        composable(NavScreens.HomeScreens.Reserved.route) { NavReservedScreen(productViewModel = productViewModel) }
+        composable(NavScreens.HomeScreens.Saved.route) { NavSavedScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.MyProfile.route) { DrawerMyProfileScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Settings.route) { DrawerSettingsScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Help.route) { DrawerHelpScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.AboutUs.route) { DrawerAboutUsScreen(productViewModel = productViewModel) }
+        composable(NavScreens.DrawerScreens.Logout.route) { DrawerLogoutScreen(productViewModel = productViewModel) }
     }
 
+}
 
+
+
+@Composable
+fun DrawerNavBottomBar(
+    modifier: Modifier = Modifier,
+    screens: List<NavScreens.HomeScreens>,
+    navController: NavController
+) {
+    BottomNavigation(
+        modifier = modifier,
+        backgroundColor = MaterialTheme.colors.primary
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        screens.forEach { screen ->
+            BottomNavigationItem(
+                icon = { Icon(imageVector = screen.icon, contentDescription = "") },
+                label = { Text(screen.title) },
+                selected = currentRoute == screen.route,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo = navController.graph.startDestinationId
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+    }
 }

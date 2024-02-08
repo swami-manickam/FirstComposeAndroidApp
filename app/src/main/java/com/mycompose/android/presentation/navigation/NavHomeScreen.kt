@@ -13,7 +13,7 @@ import com.mycompose.android.presentation.product.ProductViewModel
 
 
 @Composable
-fun NavHomeScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+fun DrawerHomeScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
     Column(
         modifier = modifier.fillMaxSize(),
@@ -24,9 +24,21 @@ fun NavHomeScreen(modifier: Modifier = Modifier, productViewModel: ProductViewMo
     }
 }
 
+@Composable
+fun DrawerMyProfileScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+    productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "MyProfile Screen", style = MaterialTheme.typography.h4)
+    }
+}
+
 
 @Composable
-fun NavSettingsScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+fun DrawerSettingsScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Settings)
     Column(
         modifier = modifier.fillMaxSize(),
@@ -39,7 +51,7 @@ fun NavSettingsScreen(modifier: Modifier = Modifier, productViewModel: ProductVi
 
 
 @Composable
-fun NavHelpScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+fun DrawerHelpScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Help)
     Column(
         modifier = modifier.fillMaxSize(),
@@ -51,7 +63,7 @@ fun NavHelpScreen(modifier: Modifier = Modifier,productViewModel: ProductViewMod
 }
 
 @Composable
-fun NavAboutUsScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+fun DrawerAboutUsScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.AboutUs)
     Column(
         modifier = modifier.fillMaxSize(),
@@ -63,6 +75,57 @@ fun NavAboutUsScreen(modifier: Modifier = Modifier, productViewModel: ProductVie
 }
 
 @Composable
-fun LogoutScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+fun DrawerLogoutScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
 
+}
+
+
+@Composable
+fun NavFavoriteScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+    productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Favorite Screen", style = MaterialTheme.typography.h4)
+    }
+}
+
+
+@Composable
+fun NavNearbyScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+    productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Settings)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Nearby Screen", style = MaterialTheme.typography.h4)
+    }
+}
+
+
+@Composable
+fun NavReservedScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+    productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Help)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Reserved Screen", style = MaterialTheme.typography.h4)
+    }
+}
+
+@Composable
+fun NavSavedScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
+    productViewModel.setCurrentScreen(NavScreens.DrawerScreens.AboutUs)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Saved Screen", style = MaterialTheme.typography.h4)
+    }
 }
