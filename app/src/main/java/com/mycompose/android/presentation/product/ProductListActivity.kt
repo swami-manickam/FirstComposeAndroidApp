@@ -68,10 +68,9 @@ class ProductListActivity : BaseActivity() {
                                         tint = MaterialTheme.colorScheme.background
                                     )
                                 }
-                            }
+                            },
                         )
                     }
-
                     ) { innerPadding ->
                         Column(Modifier.padding(innerPadding)) {
                             /*FetchAllRecords()*/

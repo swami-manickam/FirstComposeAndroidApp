@@ -23,7 +23,9 @@ sealed class NavScreens(val route: String, val title: String) {
 
 
     sealed class DrawerScreens(route: String, val icon: Int,  title: String) : NavScreens(route, title) {
+
         object Home : DrawerScreens("home", R.drawable.ic_faq_new, "Home")
+        object MyProfile : DrawerScreens("myprofile", R.drawable.ic_faq_new, "MyProfile")
         object Settings : DrawerScreens("settings", R.drawable.ic_faq_new, "Settings")
         object Help : DrawerScreens("help", R.drawable.ic_faq_new, "Help")
         object AboutUs : DrawerScreens("aboutus", R.drawable.ic_faq_new, "AboutUs")
@@ -31,9 +33,17 @@ sealed class NavScreens(val route: String, val title: String) {
     }
 }
 
+val screensInHomeFromBottomNav = listOf(
+    NavScreens.HomeScreens.Favorite,
+    NavScreens.HomeScreens.NearBy,
+    NavScreens.HomeScreens.Reserved,
+    NavScreens.HomeScreens.Saved
+)
+
 
 val screensFromDrawer = listOf(
     NavScreens.DrawerScreens.Home,
+    NavScreens.DrawerScreens.MyProfile,
     NavScreens.DrawerScreens.Settings,
     NavScreens.DrawerScreens.Help,
     NavScreens.DrawerScreens.AboutUs,

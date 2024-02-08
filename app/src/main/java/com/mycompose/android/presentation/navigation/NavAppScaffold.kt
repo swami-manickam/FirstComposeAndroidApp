@@ -1,6 +1,8 @@
 package com.mycompose.android.presentation.navigation
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -20,12 +22,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.mycompose.android.presentation.navigation.view.DrawerNavBottomBar
 import com.mycompose.android.presentation.navigation.view.DrawerNavHost
 import com.mycompose.android.presentation.navigation.view.DrawerView
+import com.mycompose.android.presentation.navigation.view.NavScreens
+import com.mycompose.android.presentation.navigation.view.screensInHomeFromBottomNav
 import com.mycompose.android.presentation.product.ProductViewModel
 import kotlinx.coroutines.launch
 
 
+@RequiresApi(Build.VERSION_CODES.M)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun NavAppScaffold() {
@@ -47,9 +53,19 @@ fun NavAppScaffold() {
             })
     }
 
+    val bottomBar: @Composable () -> Unit = {
+        if (currentScreen == NavScreens.DrawerScreens.Home || currentScreen is NavScreens.HomeScreens) {
+            DrawerNavBottomBar(
+                navController = navController,
+                screens = screensInHomeFromBottomNav
+            )
+        }
+    }
+
 
     Scaffold(
         topBar = topBar,
+        bottomBar = { bottomBar()},
         scaffoldState = scaffoldState,
         drawerContent = {
             DrawerView(Modifier.padding(0.dp)) { route ->
@@ -70,6 +86,8 @@ fun NavAppScaffold() {
 
 
 }
+
+
 
 
 @Composable
