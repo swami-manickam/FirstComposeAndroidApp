@@ -82,14 +82,14 @@ fun DrawerView(
                 Column(modifier = Modifier.padding(4.dp)) {
 
                     Text(
-                        text = "",
-                        style = MaterialTheme.typography.h3,
+                        text = "Android Compose",
+                        style = MaterialTheme.typography.h5,
                         color = colorResource(id = R.color.white)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "",
-                        style = MaterialTheme.typography.h3,
+                        text = "Navigation Drawer",
+                        style = MaterialTheme.typography.h6,
                         color = colorResource(id = R.color.white)
                     )
                 }

@@ -4,6 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Reviews
+import androidx.compose.material.icons.filled.Savings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mycompose.app.R
 
@@ -16,8 +18,8 @@ sealed class NavScreens(val route: String, val title: String) {
     ) : NavScreens(route, title) {
         object Favorite : HomeScreens("favorite", "Favorite", Icons.Filled.Favorite)
         object NearBy : HomeScreens("nearby", "Nearby", Icons.Filled.Notifications)
-        object Reserved : HomeScreens("reserved", "Reserved", Icons.Filled.Person)
-        object Saved : HomeScreens("saved", "Saved", Icons.Filled.Person)
+        object Reserved : HomeScreens("reserved", "Reserved", Icons.Filled.Reviews)
+        object Saved : HomeScreens("saved", "Saved", Icons.Filled.Savings)
 
     }
 

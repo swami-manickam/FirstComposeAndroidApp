@@ -54,12 +54,12 @@ fun NavAppScaffold() {
     }
 
     val bottomBar: @Composable () -> Unit = {
-        if (currentScreen == NavScreens.DrawerScreens.Home || currentScreen is NavScreens.HomeScreens) {
+        //if (currentScreen == NavScreens.DrawerScreens.Home || currentScreen is NavScreens.HomeScreens) {
             DrawerNavBottomBar(
                 navController = navController,
                 screens = screensInHomeFromBottomNav
             )
-        }
+        //}
     }
 
 
