@@ -53,7 +53,7 @@ class ProductListActivity : BaseActivity() {
                 //
                 Surface(color = MaterialTheme.colorScheme.background) {
 
-                    Scaffold(topBar = {
+                    Scaffold(/*topBar = {
                         TopAppBar(
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.primary,
@@ -70,7 +70,7 @@ class ProductListActivity : BaseActivity() {
                                 }
                             },
                         )
-                    }
+                    }*/
                     ) { innerPadding ->
                         Column(Modifier.padding(innerPadding)) {
                             /*FetchAllRecords()*/
