@@ -28,6 +28,7 @@ import com.mycompose.android.presentation.navigation.view.DrawerView
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.navigation.view.screensInHomeFromBottomNav
 import com.mycompose.android.presentation.product.ProductViewModel
+import com.mycompose.android.utils.BackPressHandler
 import kotlinx.coroutines.launch
 
 
@@ -42,6 +43,15 @@ fun NavAppScaffold() {
     val scope = rememberCoroutineScope()
     val currentScreen by viewModel.currentScreen.observeAsState()
 
+
+   /* if (scaffoldState.drawerState.isOpen) {
+        BackPressHandler {
+            scope.launch {
+                scaffoldState.drawerState.close()
+            }
+        }
+    }
+*/
 
     var topBar: @Composable () -> Unit = {
         TopBar(title = currentScreen!!.title,
