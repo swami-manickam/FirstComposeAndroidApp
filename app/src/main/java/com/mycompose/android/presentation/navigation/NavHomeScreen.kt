@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.mycompose.android.presentation.expandlist.MovieExpand
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.product.ProductViewModel
 
@@ -16,11 +17,12 @@ import com.mycompose.android.presentation.product.ProductViewModel
 fun DrawerHomeScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()/*,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally*/
     ) {
-        Text(text = "Nav Home.", style = MaterialTheme.typography.h4)
+        /*Text(text = "Nav Home.", style = MaterialTheme.typography.h4)*/
+        MovieExpand()
     }
 }
 
