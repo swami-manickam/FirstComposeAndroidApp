@@ -8,4 +8,50 @@
 
 
 
+    <string name="deadpool">Deadpool</string>
+    <string name="namor">Namor</string>
+    <string name="ghost">Ghost Rider</string>
+    <string name="moon">Moon Knight</string>
+    <string name="hawkeye">Hawkeye</string>
+    <string name="blade">Blade</string>
+    <string name="strange">Doctor Strange</string>
+    <string name="vision">Vision</string>
+    <string name="widow">Black Widow</string>
+    <string name="daredevil">Daredevil</string>
+    <string name="panther">Black Panther</string>
+    <string name="hulk">Hulk</string>
+
+    <string name="deadpool_name">Wade Winston Wilson</string>
+    <string name="namor_name">Rey Namor/Namor McKenzie</string>
+    <string name="ghost_name">-</string>
+    <string name="moon_name"> Marc Spector</string>
+    <string name="hawkeye_name">Clint Barton</string>
+    <string name="blade_name">Eric Darren Brooks</string>
+    <string name="strange_name">Stephen Vincent Strange</string>
+    <string name="vision_name">Vision</string>
+    <string name="widow_name">Natalia Alianovna Romanova</string>
+    <string name="daredevil_name">Matthew Michael Murdock</string>
+    <string name="panther_name">T’Challa</string>
+    <string name="hulk_name">Robert Bruce Banner</string>
+
+    <string name="deadpool_powers">Hand-to-Hand Combat, Healing Factor, Immortality, Superior Marksmanship</string>
+    <string name="namor_powers">Control of Elements, Underwater Combat, Telepathy, Flight, Water Manipulation, Superhuman Strength, Superhuman Durability, Superhuman Reflexes, Superhuman Agility</string>
+    <string name="ghost_powers">Pyrokinesis, Healing Factor, Teleportation</string>
+    <string name="moon_powers">Enhanced strength during nights with full moons, prophetic visions and dreams, and the ability to drain another person’s life energies through physical contact</string>
+    <string name="hawkeye_powers">Hand-to-Hand Combat, Superior Marksmanship</string>
+    <string name="blade_powers">Superhuman Stamina, Healing Factor, Superhuman Strength, Heightened Senses, Superhuman Durability, Martial Artist, Sword-Fighting</string>
+    <string name="strange_powers">Teleportation, Energy Blasts/Mystic Bolts, Astral Projection, Telekinesis, Illusions, Time Manipulation, Dimensional Travel</string>
+    <string name="vision_powers">Density Shifting, Intangibility, Photokinesis, Remote Interfacing (with other computer systems), Synthezoid, Regeneration, Heightened Senses, Flight, Superhuman Strength, Superhuman Durability, Superhuman Speed, Superhuman Reflexes, Superhuman Agility</string>
+    <string name="widow_powers">Slowed Aging, Superhuman Durability</string>
+    <string name="daredevil_powers">Heightened Senses</string>
+    <string name="panther_powers">Heightened Senses, Night Vision, Hand-to-Hand Combat, Superhuman Strength</string>
+    <string name="hulk_powers">Healing Factor, Superhuman Durability, Superhuman Strength, Size and Shape Alteration, Genius Intelligence</string>
+
+
+    <string name="superpowers">Superpowers:</string>
+    <string name="expand_button_content_description">See more or less information.</string>
+
+
+
+
 </resources>
