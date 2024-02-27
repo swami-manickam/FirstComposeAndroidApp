@@ -83,10 +83,8 @@ fun MovieListItem(movieModel: MovieModel, modifier: Modifier = Modifier) {
                     .padding(16.dp)
                     .sizeIn(minHeight = 72.dp)
             ) {
-                Row(modifier = Modifier.padding(horizontal = 10.dp),){
                 MovieImage(heroIcon = movieModel.imageResourceId)
                 MovieInformation(movieModel.name, movieModel.realName)
-            }
                 Spacer(Modifier.weight(1f))
                 Box(contentAlignment = Alignment.CenterEnd) {
                     MovieItemButton(expanded = expanded,
@@ -130,7 +128,7 @@ fun MovieInformation(heroName: Int, heroRealName: Int, modifier: Modifier = Modi
         )
         Text(
             text = stringResource(heroRealName),
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.body2
         )
     }
 }
