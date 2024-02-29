@@ -11,7 +11,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -40,6 +42,8 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val localDimens = staticCompositionLocalOf { Dimens() }
+private val localRadius = staticCompositionLocalOf { Radius() }
 @Composable
 fun FirstComposeAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -70,6 +74,17 @@ CompositionLocalProvider(value = LocalSpacing provides Spacing()) {
         content = content
     )
 }
+}
 
 
+object Theme {
+    val radius: Radius
+        @Composable
+        @ReadOnlyComposable
+        get() = localRadius.current
+
+    val dimens: Dimens
+        @Composable
+        @ReadOnlyComposable
+        get() = localDimens.current
 }
