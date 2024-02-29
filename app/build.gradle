@@ -230,5 +230,6 @@ dependencies {
 
     // pagination
     implementation "androidx.paging:paging-compose:3.2.1"
+    implementation("androidx.compose.animation:animation:1.6.2")
 
 }

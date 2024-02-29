@@ -11,6 +11,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.toArgb
@@ -66,11 +67,24 @@ fun FirstComposeAppTheme(
         }
     }
 
-CompositionLocalProvider(value = LocalSpacing provides Spacing(),) {
+CompositionLocalProvider(value = LocalSpacing provides Spacing()) {
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
 }
+}
+
+
+object Theme {
+    val radius: Radius
+        @Composable
+        @ReadOnlyComposable
+        get() = localRadius.current
+
+    val dimens: Dimens
+        @Composable
+        @ReadOnlyComposable
+        get() = localDimens.current
 }
