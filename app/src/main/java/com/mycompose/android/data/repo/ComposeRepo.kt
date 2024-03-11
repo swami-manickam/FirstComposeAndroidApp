@@ -26,7 +26,7 @@ class ComposeRepo @Inject constructor(
     /*Method 3 */
 
     suspend fun getAllProductsListFlow() = performFlowOperation (
-        networkCall = { remoteDataSource.getProducts() }
+        networkCall = { remoteDataSource.getProductsFlow() }
     )
 
 

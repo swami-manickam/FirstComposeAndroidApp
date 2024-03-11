@@ -1,6 +1,8 @@
 package com.mycompose.android.presentation.product
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -65,6 +67,24 @@ class ProductViewModel @Inject constructor(
     fun updateClickCount(count: Int) {
         _clickCount.value = count
     }
+
+
+    private val _state = mutableStateOf(ComposeState())
+    val state: State<ComposeState> = _state
+
+
+    fun getAllProductDetails() {
+        viewModelScope.launch {
+            try {
+                val response = repository.getAllProductsList()
+                response.let { _userList.value = it.data?.results }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
 
 
 }
