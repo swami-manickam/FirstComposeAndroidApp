@@ -23,23 +23,16 @@ private val DarkColorScheme = darkColorScheme(
     primary = PrimaryColor,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    background = blackColor
+    background = blackColor,
+    onPrimary = CardBgColor
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryColor,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    background = whiteColor
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background = whiteColor,
+    onPrimary = CardBgColor
 )
 
 private val localDimens = staticCompositionLocalOf { Dimens() }

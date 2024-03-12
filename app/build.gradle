@@ -207,7 +207,7 @@ dependencies {
     implementation deps.compose.activity_compose
     implementation deps.compose.ui
     implementation deps.compose.tooling_preview
-    implementation 'androidx.compose.material3:material3:1.2.0-alpha06'
+    implementation 'androidx.compose.material3:material3:1.2.0'
     implementation deps.compose.ui_compose_livedata
     implementation deps.compose.ui_compose_coil
     implementation "io.coil-kt:coil-gif:2.1.0"
@@ -231,5 +231,8 @@ dependencies {
     // pagination
     implementation "androidx.paging:paging-compose:3.2.1"
     implementation("androidx.compose.animation:animation:1.6.2")
+
+    implementation 'androidx.compose.foundation:foundation:1.6.3'
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.30.1"
 
 }
