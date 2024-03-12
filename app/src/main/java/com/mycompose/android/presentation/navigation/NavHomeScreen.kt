@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mycompose.android.data.response.ProductPayload
+import com.mycompose.android.presentation.CustomTabLayout
 import com.mycompose.android.presentation.expandlist.MovieExpand
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.product.HorizontalPagerWithIndicators
@@ -212,7 +213,7 @@ fun NavFavoriteScreen(modifier: Modifier = Modifier, productViewModel: ProductVi
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         /*Text(text = "Favorite Screen", style = MaterialTheme.typography.h4)*/
@@ -226,10 +227,11 @@ fun NavNearbyScreen(modifier: Modifier = Modifier, productViewModel: ProductView
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Settings)
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Nearby Screen", style = MaterialTheme.typography.h4)
+        /*Text(text = "Nearby Screen", style = MaterialTheme.typography.h4)*/
+        CustomTabLayout(productViewModel)
     }
 }
 
