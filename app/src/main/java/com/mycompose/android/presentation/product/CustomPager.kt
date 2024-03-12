@@ -146,7 +146,7 @@ fun ImageFromURLWithPlaceHolder(imageUrl: String) {
             .build(),
         placeholder = painterResource(R.drawable.ic_faq_new),
         contentDescription = stringResource(R.string.app_name),
-        contentScale = ContentScale.Fit,
-        modifier = Modifier.clip(RoundedCornerShape(8.dp))
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
     )
 }
