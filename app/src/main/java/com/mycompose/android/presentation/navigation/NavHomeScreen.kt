@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 package com.mycompose.android.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,18 +13,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,11 +47,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mycompose.android.data.response.ProductPayload
+import com.mycompose.android.presentation.CustomRememberDerivedStateDemo
 import com.mycompose.android.presentation.CustomTabLayout
 import com.mycompose.android.presentation.expandlist.MovieExpand
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.product.HorizontalPagerWithIndicators
 import com.mycompose.android.presentation.product.ProductViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -60,7 +78,7 @@ fun DrawerMyProfileScreen(modifier: Modifier = Modifier, productViewModel: Produ
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-       // Text(text = "MyProfile Screen", style = MaterialTheme.typography.h4)
+        // Text(text = "MyProfile Screen", style = MaterialTheme.typography.h4)
 
 
         val userdata = productViewModel.userList.observeAsState(null)
@@ -79,8 +97,23 @@ fun DrawerMyProfileScreen(modifier: Modifier = Modifier, productViewModel: Produ
             }
 
 
-        if (userdata.value != null)
-            LoadProductDetail(productPayload = userdata.value)
+        var isRefreshing by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+
+        if (userdata.value != null) {
+            /*LoadProductDetail(productPayload = userdata.value)*/
+            LoadProductAndPullRefresh(
+                products = userdata.value!!,
+                isRefreshing = isRefreshing,
+                onRefresh = {
+                    scope.launch {
+                        isRefreshing = true
+                        delay(3000L)
+                        isRefreshing = false
+                    }
+                })
+        }
+
     }
 }
 
@@ -91,6 +124,48 @@ fun LoadProductDetail(productPayload: List<ProductPayload>?) =
             ShowProductList(payload)
         }
     }
+
+
+@Composable
+fun <T> LoadProductAndPullRefresh(
+    products: List<T>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    lazyListState: LazyGridState = rememberLazyGridState()
+) {
+
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    Box(modifier = Modifier.nestedScroll(pullToRefreshState.nestedScrollConnection).padding(bottom = 60.dp)) {
+
+        LazyVerticalGrid(state = lazyListState, columns = GridCells.Adaptive(minSize = 140.dp)) {
+            items(products) {
+                ShowProductList(product = it as ProductPayload)
+            }
+        }
+
+        if (pullToRefreshState.isRefreshing) {
+            LaunchedEffect(true) {
+                onRefresh()
+            }
+        }
+
+        LaunchedEffect(isRefreshing) {
+            if (isRefreshing)
+                pullToRefreshState.startRefresh()
+            else
+                pullToRefreshState.endRefresh()
+
+
+        }
+        if (isRefreshing)
+            PullToRefreshContainer(
+                state = pullToRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+
+    }
+}
 
 
 @Composable
@@ -179,7 +254,7 @@ fun DrawerSettingsScreen(modifier: Modifier = Modifier, productViewModel: Produc
 
 
 @Composable
-fun DrawerHelpScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+fun DrawerHelpScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Help)
     Column(
         modifier = modifier.fillMaxSize(),
@@ -203,7 +278,7 @@ fun DrawerAboutUsScreen(modifier: Modifier = Modifier, productViewModel: Product
 }
 
 @Composable
-fun DrawerLogoutScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+fun DrawerLogoutScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
 
 }
 
@@ -237,14 +312,15 @@ fun NavNearbyScreen(modifier: Modifier = Modifier, productViewModel: ProductView
 
 
 @Composable
-fun NavReservedScreen(modifier: Modifier = Modifier,productViewModel: ProductViewModel) {
+fun NavReservedScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Help)
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Reserved Screen", style = MaterialTheme.typography.h4)
+        /*Text(text = "Reserved Screen", style = MaterialTheme.typography.h4)*/
+        CustomRememberDerivedStateDemo(productViewModel)
     }
 }
 
