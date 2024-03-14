@@ -1,5 +1,9 @@
 package com.mycompose.android.utils
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import kotlin.math.pow
@@ -25,4 +29,12 @@ fun Int.genderInString(): String {
 fun Double.roundTo(numFractionDigits: Int): Double {
     val factor = 10.0.pow(numFractionDigits.toDouble())
     return (this * factor).roundToInt() / factor
+}
+
+
+fun Activity.openAppSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
 }

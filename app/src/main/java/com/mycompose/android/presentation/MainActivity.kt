@@ -1,17 +1,22 @@
 package com.mycompose.android.presentation
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -48,18 +53,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.google.android.gms.auth.api.signin.internal.Storage
 import com.mycompose.android.presentation.base.BaseActivity
+import com.mycompose.android.presentation.custom.CameraPermissionTextProvider
+import com.mycompose.android.presentation.custom.CustomPermissionDialog
+import com.mycompose.android.presentation.custom.RecordAudioPermissionTextProvider
+import com.mycompose.android.presentation.custom.StoragePermissionTextProvider
 import com.mycompose.android.presentation.product.ProductListActivity
 import com.mycompose.android.presentation.product.ProductViewModel
 import com.mycompose.android.ui.theme.FirstComposeAppTheme
 import com.mycompose.android.ui.theme.screen.CenteredImageAndText
 import com.mycompose.android.ui.theme.screen.CustomCountDownSplashScreen
+import com.mycompose.android.utils.openAppSettings
 import com.mycompose.app.R
 
 
 class MainActivity : BaseActivity() {
 
     private val viewModel: ProductViewModel by viewModels()
+
+
+    private val permissionsToRequest = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -273,6 +292,96 @@ private fun requestWriteSettingsPermission(context: Context) {
         }
     }
 }
+
+
+@Composable
+fun ShowPermissionGranted(viewModel: ProductViewModel, permissionsToRequest : Array<String>) {
+
+    val dialogQueue = viewModel.visiblePermissionDialogQueue
+    val context = LocalContext.current
+
+    val cameraPermissionResultLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            viewModel.onPermissionResult(
+                permission = Manifest.permission.CAMERA,
+                isGranted = isGranted
+            )
+        }
+    )
+
+    val multiplePermissionResultLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = { perms ->
+            permissionsToRequest.forEach { permission ->
+                viewModel.onPermissionResult(
+                    permission = permission,
+                    isGranted = perms[permission] == true
+                )
+            }
+        }
+    )
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            cameraPermissionResultLauncher.launch(
+                Manifest.permission.CAMERA
+            )
+        }) {
+            Text(text = "Request one permission")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            multiplePermissionResultLauncher.launch(permissionsToRequest)
+        }) {
+            Text(text = "Request multiple permission")
+        }
+    }
+
+    dialogQueue
+        .reversed()
+        .forEach { permission ->
+            CustomPermissionDialog(
+                permissionTextProvider = when (permission) {
+                    Manifest.permission.CAMERA -> {
+                        CameraPermissionTextProvider()
+                    }
+
+                    Manifest.permission.RECORD_AUDIO -> {
+                        RecordAudioPermissionTextProvider()
+                    }
+
+                    Manifest.permission.READ_EXTERNAL_STORAGE -> {
+                        StoragePermissionTextProvider()
+                    }
+
+                    else -> return@forEach
+                },
+                isPermanentlyDeclined = !shouldShowRequestPermissionRationale(
+                    context as Activity,
+                    permission,
+                ),
+                onDismiss = viewModel::dismissDialog,
+                onOkClick = {
+                    viewModel.dismissDialog()
+                    multiplePermissionResultLauncher.launch(
+                        arrayOf(permission),
+                    )
+                },
+                onGoToAppSettingsClick = {
+                    (context as? Activity)?.openAppSettings()
+                },
+            )
+        }
+}
+
+
+
+
 
 
 /*
