@@ -2,10 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -34,8 +43,7 @@
         <activity
             android:name="com.mycompose.android.presentation.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.FirstComposeApp">
-        </activity>
+            android:theme="@style/Theme.FirstComposeApp"></activity>
 
 
         <!--<activity
@@ -48,14 +56,12 @@
         <activity
             android:name="com.mycompose.android.presentation.product.ProductListActivity"
             android:exported="true"
-            android:theme="@style/Theme.FirstComposeApp">
-        </activity>
+            android:theme="@style/Theme.FirstComposeApp"></activity>
         <!-- -->
         <activity
             android:name="com.mycompose.android.presentation.product.ProductDetailActivity"
             android:exported="true"
-            android:theme="@style/Theme.FirstComposeApp">
-        </activity>
+            android:theme="@style/Theme.FirstComposeApp"></activity>
 
     </application>
 
