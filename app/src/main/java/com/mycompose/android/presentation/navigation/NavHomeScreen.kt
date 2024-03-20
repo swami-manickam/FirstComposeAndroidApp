@@ -50,6 +50,7 @@ import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.presentation.CustomRememberDerivedStateDemo
 import com.mycompose.android.presentation.CustomTabLayout
 import com.mycompose.android.presentation.expandlist.MovieExpand
+import com.mycompose.android.presentation.hotels.HotelHomeScreen
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.product.HorizontalPagerWithIndicators
 import com.mycompose.android.presentation.product.ProductViewModel
@@ -291,7 +292,6 @@ fun NavFavoriteScreen(modifier: Modifier = Modifier, productViewModel: ProductVi
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        /*Text(text = "Favorite Screen", style = MaterialTheme.typography.h4)*/
         HorizontalPagerWithIndicators(productViewModel)
     }
 }
@@ -305,7 +305,6 @@ fun NavNearbyScreen(modifier: Modifier = Modifier, productViewModel: ProductView
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        /*Text(text = "Nearby Screen", style = MaterialTheme.typography.h4)*/
         CustomTabLayout(productViewModel)
     }
 }
@@ -319,7 +318,6 @@ fun NavReservedScreen(modifier: Modifier = Modifier, productViewModel: ProductVi
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        /*Text(text = "Reserved Screen", style = MaterialTheme.typography.h4)*/
         CustomRememberDerivedStateDemo(productViewModel)
     }
 }
@@ -329,9 +327,9 @@ fun NavSavedScreen(modifier: Modifier = Modifier, productViewModel: ProductViewM
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.AboutUs)
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Saved Screen", style = MaterialTheme.typography.h4)
+        HotelHomeScreen()
     }
 }
