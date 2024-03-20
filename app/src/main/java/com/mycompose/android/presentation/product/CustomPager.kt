@@ -17,6 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -68,7 +70,10 @@ fun HorizontalPagerWithIndicators(productViewModel: ProductViewModel) {
     val pagerState = rememberPagerState(initialPage = 0,
         initialPageOffsetFraction = 0.5f, pageCount = { productPayload?.size!! })
     val coroutineScope = rememberCoroutineScope()
-    Column(modifier = Modifier.fillMaxWidth().height(250.dp).padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .height(250.dp)
+        .padding(16.dp)) {
         HorizontalPager(
             modifier = Modifier.fillMaxWidth(),
             state = pagerState,
@@ -113,26 +118,32 @@ fun HorizontalPagerWithIndicators(productViewModel: ProductViewModel) {
 
 @Composable
 fun DisplayHorizontalPagerContent(pageNo: Int,payload : ProductPayload) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(160.dp),
-        contentAlignment = Alignment.Center,
-    ) {
 
+    /*Card(shape = RoundedCornerShape(10.dp), modifier = Modifier.graphicsLayer {
+        val pageOffset = calculateCurrentOffsetForPage(pageNo).ab
+    }) {
 
-        ImageFromURLWithPlaceHolder(payload.strDrinkThumb)
-        Text(
-            text = payload.strCategory,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
+    }*/
+        Box(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(8.dp)
-                .padding(horizontal = 4.dp, vertical = 2.dp)
-        )
-    }
+                .fillMaxWidth()
+                .height(160.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+
+
+            ImageFromURLWithPlaceHolder(payload.strDrinkThumb)
+            Text(
+                text = payload.strCategory,
+                color = Color.White,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(8.dp)
+                    .padding(horizontal = 4.dp, vertical = 2.dp)
+            )
+        }
 
 }
 
@@ -147,6 +158,8 @@ fun ImageFromURLWithPlaceHolder(imageUrl: String) {
         placeholder = painterResource(R.drawable.ic_faq_new),
         contentDescription = stringResource(R.string.app_name),
         contentScale = ContentScale.Crop,
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
     )
 }

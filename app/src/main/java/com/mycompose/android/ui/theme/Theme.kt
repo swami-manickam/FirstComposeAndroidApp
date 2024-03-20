@@ -24,7 +24,8 @@ private val DarkColorScheme = darkColorScheme(
     secondary = PurpleGrey80,
     tertiary = Pink80,
     background = blackColor,
-    onPrimary = CardBgColor
+    onPrimary = CardBgColor,
+    onBackground = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -32,7 +33,8 @@ private val LightColorScheme = lightColorScheme(
     secondary = PurpleGrey40,
     tertiary = Pink40,
     background = whiteColor,
-    onPrimary = CardBgColor
+    onPrimary = CardBgColor,
+    onBackground = Pink80
 )
 
 private val localDimens = staticCompositionLocalOf { Dimens() }

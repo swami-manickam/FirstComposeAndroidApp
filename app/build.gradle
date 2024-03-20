@@ -235,4 +235,7 @@ dependencies {
     implementation 'androidx.compose.foundation:foundation:1.6.3'
     implementation "com.google.accompanist:accompanist-pager-indicators:0.30.1"
 
+    implementation deps.work.runtime
+    implementation deps.work.runtime_ktx
+
 }
