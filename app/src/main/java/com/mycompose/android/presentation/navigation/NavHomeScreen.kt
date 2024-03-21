@@ -13,15 +13,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,10 +52,12 @@ import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.mycompose.android.data.repo.MovieRepository
 import com.mycompose.android.data.response.ProductPayload
 import com.mycompose.android.presentation.CustomRememberDerivedStateDemo
 import com.mycompose.android.presentation.CustomTabLayout
 import com.mycompose.android.presentation.expandlist.MovieExpand
+import com.mycompose.android.presentation.expandlist.MovieListItem
 import com.mycompose.android.presentation.hotels.HotelHomeScreen
 import com.mycompose.android.presentation.navigation.view.NavScreens
 import com.mycompose.android.presentation.product.HorizontalPagerWithIndicators
@@ -127,6 +135,7 @@ fun LoadProductDetail(productPayload: List<ProductPayload>?) =
     }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T> LoadProductAndPullRefresh(
     products: List<T>,
@@ -287,12 +296,20 @@ fun DrawerLogoutScreen(modifier: Modifier = Modifier, productViewModel: ProductV
 @Composable
 fun NavFavoriteScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Home)
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+
+    Surface(
+        // Add this somewhere near the top of your layout, above any scrolling layouts
+        modifier = Modifier.nestedScroll(rememberNestedScrollInteropConnection())
     ) {
-        HorizontalPagerWithIndicators(productViewModel)
+        Column(
+            modifier = modifier.fillMaxSize().
+            verticalScroll(rememberScrollState()).
+            padding(bottom = 60.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            HorizontalPagerWithIndicators(productViewModel)
+        }
     }
 }
 
@@ -313,13 +330,20 @@ fun NavNearbyScreen(modifier: Modifier = Modifier, productViewModel: ProductView
 @Composable
 fun NavReservedScreen(modifier: Modifier = Modifier, productViewModel: ProductViewModel) {
     productViewModel.setCurrentScreen(NavScreens.DrawerScreens.Help)
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+
+    Surface(
+        // Add this somewhere near the top of your layout, above any scrolling layouts
+        modifier = Modifier.nestedScroll(rememberNestedScrollInteropConnection())
     ) {
-        CustomRememberDerivedStateDemo(productViewModel)
+        Column(
+            modifier = modifier.fillMaxSize().padding(bottom = 60.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CustomRememberDerivedStateDemo(productViewModel)
+        }
     }
+
 }
 
 @Composable
@@ -333,3 +357,4 @@ fun NavSavedScreen(modifier: Modifier = Modifier, productViewModel: ProductViewM
         HotelHomeScreen()
     }
 }
+
