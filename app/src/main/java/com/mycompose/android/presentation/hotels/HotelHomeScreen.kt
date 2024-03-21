@@ -60,7 +60,7 @@ fun HotelHomeScreen() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
             Box(
                 modifier = Modifier
                     .size(90.dp)
