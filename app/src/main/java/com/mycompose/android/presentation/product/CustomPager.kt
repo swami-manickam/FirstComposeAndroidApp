@@ -2,16 +2,20 @@ package com.mycompose.android.presentation.product
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -37,11 +41,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -50,6 +56,7 @@ import com.mycompose.android.presentation.hotels.HotelHomeScreen
 import com.mycompose.app.R
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -136,9 +143,11 @@ fun HorizontalPagerWithIndicators(productViewModel: ProductViewModel) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        HorizontalPagerDifferentPaddings(productPayload)
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         HotelHomeScreen()
-
 
 
 
@@ -302,6 +311,60 @@ fun BuildHorizontalSlider(productPayload: List<ProductPayload>?) {
 
         }*/
 
+    }
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun HorizontalPagerDifferentPaddings(productPayload: List<ProductPayload>?) {
+
+    val padding = 16.dp
+    //val pagerState = rememberPagerState(pageCount = { productPayload?.size!! })
+
+    val pagerState = rememberPagerState(initialPage = 0, initialPageOffsetFraction = 0f) {
+        productPayload?.size ?: 0
+    }
+    HorizontalPager(
+        state = pagerState,
+        contentPadding = PaddingValues(padding),
+        modifier = Modifier.fillMaxSize()
+    ) { page ->
+        Card(
+            Modifier
+                .offset {
+                    // Calculate the offset do neutralize paddings on the sides on
+                    // the first and the last page.
+                    val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                    val offsetToFillStartPadding = minOf(page + pageOffset - 1, 0f)
+                    val offsetToFillEndPadding = maxOf(page + pageOffset - productPayload?.size!! + 2, 0f)
+                    val xOffset =
+                        padding.toPx() * (offsetToFillStartPadding + offsetToFillEndPadding)
+                    IntOffset(x = xOffset.roundToInt(), y = 0)
+                }
+                .fillMaxWidth()
+                .aspectRatio(1f).padding(8.dp),
+            shape = RoundedCornerShape(18.dp)
+        ) {
+            /*Image(
+                painter = rememberImagePainter(
+                    data = productPayload(width = 600),
+                ),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )*/
+
+            AsyncImage(
+                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(productPayload?.get(page)?.strDrinkThumb)
+                   /* .crossfade(true)
+                    .scale(Scale.FILL)*/
+                    .build(),
+                contentDescription = null,
+                /*colorFilter = ColorFilter.colorMatrix(matrix)*/
+            )
+        }
     }
 }
 
