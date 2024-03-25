@@ -149,7 +149,7 @@ fun HorizontalPagerWithIndicators(productViewModel: ProductViewModel) {
 
         HotelHomeScreen()
 
-
+        CustomCenterSnapPager(productPayload)
 
     }
 
