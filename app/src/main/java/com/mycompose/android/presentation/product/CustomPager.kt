@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.VerticalPager
@@ -22,6 +24,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -143,13 +147,17 @@ fun HorizontalPagerWithIndicators(productViewModel: ProductViewModel) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        CustomCenterSnapPager(productPayload)
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         HorizontalPagerDifferentPaddings(productPayload)
 
         Spacer(modifier = Modifier.height(20.dp))
 
         HotelHomeScreen()
 
-        CustomCenterSnapPager(productPayload)
+        Spacer(modifier = Modifier.height(40.dp))
 
     }
 
@@ -203,6 +211,37 @@ fun ImageFromURLWithPlaceHolder(imageUrl: String) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BuildHorizontalSlider(productPayload: List<ProductPayload>?) {
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.size(10.dp))
+
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                text = "HorizontalPager Center Snap",
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.background)
+            )
+            TextButton(onClick = {}) {
+                Text(
+                    text = stringResource(id = R.string.see_all),
+                    color = colorResource(id = R.color.background)
+                )
+            }
+        }
+    }
 
 
     val pagerState = rememberPagerState(initialPage = 0, initialPageOffsetFraction = 0f) {
@@ -318,6 +357,39 @@ fun BuildHorizontalSlider(productPayload: List<ProductPayload>?) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerDifferentPaddings(productPayload: List<ProductPayload>?) {
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.size(10.dp))
+
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                text = "Horizontal Diff Padding",
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.background)
+            )
+            TextButton(onClick = {}) {
+                Text(
+                    text = stringResource(id = R.string.see_all),
+                    color = colorResource(id = R.color.background)
+                )
+            }
+        }
+    }
+
+
 
     val padding = 16.dp
     //val pagerState = rememberPagerState(pageCount = { productPayload?.size!! })
