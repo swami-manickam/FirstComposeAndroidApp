@@ -43,7 +43,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.animation.core.spring
-
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.TextButton
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import com.mycompose.app.R
 
 
 @Suppress("PreviewAnnotationInFunctionWithParameters")
@@ -51,6 +59,38 @@ import androidx.compose.animation.core.spring
 @Preview
 @Composable
 fun CustomCenterSnapPager(productPayload: List<ProductPayload>?) {
+
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.size(10.dp))
+
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                text = "Horizontal Center Snap",
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.background)
+            )
+            TextButton(onClick = {}) {
+                Text(
+                    text = stringResource(id = R.string.see_all),
+                    color = colorResource(id = R.color.background)
+                )
+            }
+        }
+    }
 
     if (productPayload.isNullOrEmpty()) {
         return
@@ -66,7 +106,7 @@ fun CustomCenterSnapPager(productPayload: List<ProductPayload>?) {
         Box(modifier = Modifier
             .fillMaxSize()
             .background(Color.DarkGray))
-        val pageSize = 70.dp
+        val pageSize = 200.dp
         HorizontalPager(
             state = pagerState,
             pageSize = PageSize.Fixed(pageSize = pageSize),
@@ -86,7 +126,7 @@ fun CustomCenterSnapPager(productPayload: List<ProductPayload>?) {
         ) { page ->
 
 
-            productPayload?.get(page)?.let { CircleFilterItem(payload = productPayload[page],
+            CircleFilterItem(payload = productPayload[page],
                 pagerState = pagerState,
                 page = page,
                 onPageSelected = { payload ->
@@ -94,7 +134,7 @@ fun CustomCenterSnapPager(productPayload: List<ProductPayload>?) {
                         pagerState.animateScrollToPage(page)
                     }
                 }
-            ) }
+            )
 
 
         }
