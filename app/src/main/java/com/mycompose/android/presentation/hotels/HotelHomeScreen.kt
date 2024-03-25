@@ -172,7 +172,7 @@ fun HotelHomeScreen() {
 
                 Text(
                     text = "TOP SELLER",
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold,
                     color = colorResource(id = R.color.background)
                 )
