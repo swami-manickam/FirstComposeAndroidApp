@@ -31,7 +31,7 @@ versions.okhttp_logging_interceptor = "3.9.0"
 versions.paging = "3.1.0-beta01"
 versions.recyclerview = "1.2.1"
 versions.retrofit = "2.9.0"
-versions.okHttp3 = "4.9.3"
+versions.okHttp3 = "4.12.0"
 versions.room = "2.4.2"
 versions.work = "2.6.0"
 versions.hilt_version = '2.43.2'
@@ -46,6 +46,8 @@ versions.compose_lifecycle='2.3.1'
 versions.compose_livedata='1.5.0'
 versions.compose_coil='2.2.2'
 versions.compose_navigation='2.7.6'
+versions.koin_version='3.4.0'
+versions.ktor_client = "2.3.6"
 
 ext.versions = versions
 
@@ -188,6 +190,10 @@ deps.otto = "com.squareup:otto:$versions.otto"
 deps.coil = "io.coil-kt:coil:$versions.coil"
 deps.gms_loc = "com.google.android.gms:play-services-location:$versions.gms_location"
 
+deps.koin_version="io.insert-koin:koin-android:$versions.koin_version"
+deps.koin_version_compose="io.insert-koin:koin-androidx-compose:$versions.koin_version"
+deps.koin_serialization="io.ktor:ktor-serialization-kotlinx-json:$versions.ktor_client"
+
 //Jetpack Compose
 
 def compose = [:]
@@ -208,7 +214,7 @@ ext.deps = deps
 
 def build_versions = [:]
 build_versions.application_id = "com.mycompose.app"
-build_versions.min_sdk = 21
+build_versions.min_sdk = 23
 build_versions.compile_sdk = 34
 build_versions.target_sdk = 34
 ext.build_versions = build_versions

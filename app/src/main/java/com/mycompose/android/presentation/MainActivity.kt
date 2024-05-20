@@ -141,8 +141,8 @@ class MainActivity : BaseActivity() {
                                 )
                             }
                         ) {
-                             startActivity(Intent(currentContext, LoginActivity::class.java))
-                             finish()
+                            startActivity(Intent(currentContext, LoginActivity::class.java))
+                            finish()
                             /*WaterCount(modifier = Modifier.padding(6.dp))*/
                         }
                         ////
@@ -295,7 +295,7 @@ private fun requestWriteSettingsPermission(context: Context) {
 
 
 @Composable
-fun ShowPermissionGranted(viewModel: ProductViewModel, permissionsToRequest : Array<String>) {
+fun ShowPermissionGranted(viewModel: ProductViewModel, permissionsToRequest: Array<String>) {
 
     val dialogQueue = viewModel.visiblePermissionDialogQueue
     val context = LocalContext.current
@@ -379,9 +379,27 @@ fun ShowPermissionGranted(viewModel: ProductViewModel, permissionsToRequest : Ar
         }
 }
 
+@Composable
+fun fabonacciSeries(): Int {
 
 
+    var n = 15
 
+    if (n == 0 || n == 1)
+        return n
+
+    var a = 0
+    var b = 1
+
+    for (i in 2..n) {
+        val c = a + b
+        a = b
+        b = c
+
+    }
+
+    return b
+}
 
 
 /*
