@@ -13,7 +13,7 @@ plugins {
 
 android {
     namespace build_versions.application_id
-    compileSdk build_versions.compile_sdk
+    compileSdkVersion build_versions.compile_sdk
 
     defaultConfig {
         applicationId build_versions.application_id
@@ -70,10 +70,12 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        dataBinding = true
         compose true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerExtensionVersion ="1.5.3"
     }
     packagingOptions {
         resources {
@@ -85,6 +87,7 @@ android {
 dependencies {
     //
     implementation deps.core_ktx
+    implementation 'com.android.tools.compose:compose-preview-renderer:0.0.1-alpha01'
 
     /*Testing Tools*/
     testImplementation deps.junit
@@ -238,5 +241,9 @@ dependencies {
 
     implementation deps.work.runtime
     implementation deps.work.runtime_ktx
+
+    //Koin
+    implementation (deps.koin_version)
+    implementation (deps.koin_version_compose)
 
 }
